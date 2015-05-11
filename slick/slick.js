@@ -2111,7 +2111,11 @@
 
         var _ = this;
 
-        if ((_.options.swipe === false) || ('ontouchend' in document && _.options.swipe === false)) {
+        if (_.touchObject.swipeEventType === undefined && event.data.action == 'start') {
+            _.touchObject.swipeEventType = event.type.substr(0, 5);
+        } else if (_.touchObject.swipeEventType !== undefined && _.touchObject.swipeEventType.substr(0, 5) !== event.type.substr(0, 5)) {
+            return;
+        } else if ((_.options.swipe === false) || ('ontouchend' in document && _.options.swipe === false)) {
             return;
         } else if (_.options.draggable === false && event.type.indexOf('mouse') !== -1) {
             return;
